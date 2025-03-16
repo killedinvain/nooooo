@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⭐️ Nawf Public Script ⭐️ 《 v3 》</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a; /* Dark background */
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scrolling */
+        }
+        .menu {
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+            border: 2px solid red; /* Red outline */
+            border-radius: 10px;
+            padding: 15px;
+            width: 300px;
+            max-height: 400px; /* Fixed height for scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Red glow effect */
+            scroll-behavior: smooth; /* Smooth scrolling */
+        }
+        .menu-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #4CAF50; /* Green color for the title */
+        }
+        .menu-item {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #666;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
+            margin: 5px 0; /* Spacing between items */
+        }
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Light hover effect */
+        }
+        .menu-item:last-child {
+            border-bottom: none; /* Remove border for the last item */
+        }
+        .back-button {
+            color: #FF5722; /* Orange color for the back button */
+            font-weight: bold;
+        }
+        .popup {
+            display: none; /* Hide popups by default */
+        }
+        .loading-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid red;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            z-index: 1000;
+            display: none; /* Hidden by default */
+        }
+        .loading-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+        .progress-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Menu -->
+    <div class="menu" id="mainMenu">
+        <div class="menu-title">⭐️ Nawf Public Script ⭐️ 《 v3 》</div>
+        <div class="menu-item" onclick="showScreen('lobby')">⭐️ Lobby ⭐️</div>
+        <div class="menu-item" onclick="showScreen('battle')">🕸 Battle 🕸</div>
+        <div class="menu-item back-button" onclick="alert('Exiting...')">🌌 Exit 🌌</div>
+    </div>
+
+    <!-- Lobby Screen -->
+    <div class="menu popup" id="lobby">
+        <div class="menu-title">⭐️ Lobby ⭐️</div>
+        <div class="menu-item" onclick="startLoading('Elite Chest Hack', eliteChest)">🪺 Elite Chest Hack 🪺</div>
+        <div class="menu-item back-button" onclick="showScreen('mainMenu')">↩️ Back ↩️</div>
+    </div>
+
+    <!-- Battle Screen -->
+    <div class="menu popup" id="battle">
+        <div class="menu-title">🕸 Battle 🕸</div>
+        <div class="menu-item" onclick="startLoading('Wood Hack', modifyGameValues)">🪵 Wood Hack</div>
+        <div class="menu-item" onclick="startLoading('Speed Hack', speedButton)">✈️ Speed Hack</div>
+        <div class="menu-item" onclick="startLoading('Shield to Orb', shieldToOrb)">🛡️ Shield to Orb</div>
+        <div class="menu-item" onclick="startLoading('Fast Hammer', fastHammer)">⚒️ Fast Hammer</div>
+        <div class="menu-item" onclick="startLoading('1=9999', oneTo9999)">1️⃣ 1=9999</div>
+        <div class="menu-item" onclick="startLoading('Shield to Anoobis', shieldToAnoobis)">🛡️ Shield to Anoobis</div>
+        <div class="menu-item" onclick="startLoading('Shield to Electric', shieldToElectric)">⚡ Shield to Electric</div>
+        <div class="menu-item" onclick="startLoading('Banana Anoobis', bananaAnoobis)">🍌 Banana Anoobis</div>
+        <div class="menu-item" onclick="startLoading('BP Multiplier', bpMultiplier)">📈 BP Multiplier</div>
+        <div class="menu-item" onclick="startLoading('Banana Electric', bananaElectric)">🍌 Banana Electric</div>
+        <div class="menu-item" onclick="startLoading('Apple Anoobis', appleAnoobis)">🍎 Apple Anoobis</div>
+        <div class="menu-item" onclick="startLoading('Med to Airdrop', medToAirdrop)">💊 Med to Airdrop</div>
+        <div class="menu-item" onclick="startLoading('30=9999', thirtyTo9999)">3️⃣0️⃣ 30=9999</div>
+        <div class="menu-item back-button" onclick="showScreen('mainMenu')">↩️ Back ↩️</div>
+    </div>
+
+    <!-- Loading Popup -->
+    <div class="loading-popup" id="loadingPopup">
+        <div id="loadingText">Loading...</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+        </div>
+        <div class="progress-text" id="progressText">0%</div>
+    </div>
+
+    <script>
+        // Function to show a specific screen and hide others
+        function showScreen(id) {
+            const screens = document.querySelectorAll('.menu');
+            screens.forEach(screen => {
+                screen.style.display = 'none';
+            });
+
+            const selectedScreen = document.getElementById(id);
+            if (selectedScreen) {
+                selectedScreen.style.display = 'block';
+            }
+        }
+
+        // Function to simulate loading and run h5gg logic
+        function startLoading(action, callback) {
+            const loadingPopup = document.getElementById('loadingPopup');
+            const loadingText = document.getElementById('loadingText');
+            const loadingProgress = document.getElementById('loadingProgress');
+            const progressText = document.getElementById('progressText');
+
+            // Show loading popup
+            loadingPopup.style.display = 'block';
+            loadingText.innerText = `Loading ${action}...`;
+            loadingProgress.style.width = '0%';
+            progressText.innerText = '0%';
+
+            // Simulate loading progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 20; // Faster increment
+                if (progress > 100) progress = 100; // Cap at 100%
+                loadingProgress.style.width = `${progress}%`;
+                progressText.innerText = `${Math.floor(progress)}%`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    loadingPopup.style.display = 'none';
+                    callback(); // Execute the hack after loading completes
+                }
+            }, 50); // Faster interval (50ms)
+        }
+
+        // Helper function to search and handle errors
+        function safeSearchNumber(value, type, startRange, endRange) {
+            try {
+                console.log(`Searching for value: ${value} (Type: ${type}) in range ${startRange} to ${endRange}`);
+                h5gg.searchNumber(value, type, startRange, endRange);
+            } catch (error) {
+                console.error('Error during search:', error);
+                alert('An error occurred during the search. Please try again.');
+                throw error; // Re-throw to stop further execution
+            }
+        }
+
+        // h5gg Logic (ALL VALUES)
+        function modifyGameValues() {
+            try {
+                console.log('Wood Hack activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444446', 'I32', '0x100000000', '0x1600000000');
+                h5gg.editAll('0', 'I32');
+                h5gg.clearResults();
+                alert('Wood Hack activated!');
+            } catch (error) {
+                console.error('Error in modifyGameValues:', error);
+                alert('Failed to activate Wood Hack. Check console for details.');
+            }
+        }
+
+        function speedButton() {
+            try {
+                console.log('Speed Hack activated!');
+                h5gg.clearResults();
+                safeSearchNumber('4683743613549543424', 'I64', '0x100000000', '0x1600000000');
+                let results = h5gg.getResults(1000);
+                if (results.length === 0) {
+                    alert('No results found for value 4683743613549543424.');
+                    return;
+                }
+                let modified = h5gg.editAll('4683743615714852864', 'I64');
+                if (modified) {
+                    alert('Speed Hack activated!');
+                } else {
+                    alert('Failed to modify values.');
+                }
+                h5gg.clearResults();
+            } catch (error) {
+                console.error('Error in speedButton:', error);
+                alert('Failed to activate Speed Hack. Check console for details.');
+            }
+        }
+
+        function shieldToOrb() {
+            try {
+                console.log('Shield to Orb activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444444', 'I32', '0x100000000', '0x1600000000');
+                let results444444 = h5gg.getResults(100);
+                if (results444444.length === 0) {
+                    alert('No results found for value 444444.');
+                    return;
+                }
+                h5gg.searchNearby('94', 'I32', '0x900');
+                let resultsNearby94 = h5gg.getResults(100);
+                if (resultsNearby94.length === 0) {
+                    alert('Nearby search for 94 failed.');
+                    return;
+                }
+                safeSearchNumber('94', 'I32', '0x100000000', '0x1600000000');
+                let results94 = h5gg.getResults(100);
+                if (results94.length === 0) {
+                    alert('No results found for value 94.');
+                    return;
+                }
+                let modified94 = h5gg.editAll('229', 'I32');
+                if (!modified94) {
+                    alert('Failed to modify all occurrences of value 94 to 229.');
+                    return;
+                }
+                h5gg.searchNearby('8', 'I32', '0x900');
+                let resultsNearby8 = h5gg.getResults(100);
+                if (resultsNearby8.length === 0) {
+                    alert('Nearby search for 8 failed.');
+                    return;
+                }
+                safeSearchNumber('8', 'I32', '0x100000000', '0x1600000000');
+                let results8 = h5gg.getResults(100);
+                if (results8.length === 0) {
+                    alert('No results found for value 8.');
+                    return;
+                }
+                let modified8 = h5gg.editAll('6', 'I32');
+                if (!modified8) {
+                    alert('Failed to modify all occurrences of value 8 to 6.');
+                    return;
+                }
+                h5gg.searchNearby('444444', 'I32', '0x900');
+                let resultsNearby444444 = h5gg.getResults(100);
+                if (resultsNearby444444.length === 0) {
+                    alert('Final nearby search for 444444 failed.');
+                    return;
+                }
+                h5gg.clearResults();
+                alert('Shield to Orb activated!');
+            } catch (error) {
+                console.error('Error in shieldToOrb:', error);
+                alert('Failed to activate Shield to Orb. Check console for details.');
+            }
+        }
+
+        function fastHammer() {
+            try {
+                console.log('Fast Hammer activated!');
+                h5gg.clearResults();
+                safeSearchNumber('1075838976', 'I64', '0x100000000', '0x1600000000');
+                h5gg.editAll('1140457472', 'I64');
+                h5gg.clearResults();
+                alert('Fast Hammer activated!');
+            } catch (error) {
+                console.error('Error in fastHammer:', error);
+                alert('Failed to activate Fast Hammer. Check console for details.');
+            }
+        }
+
+        function oneTo9999() {
+            try {
+                console.log('1=9999 activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444445', 'I32', '0x100000000', '0x1600000000');
+                h5gg.editAll('454419', 'I32');
+                h5gg.clearResults();
+                alert('1=9999 activated!');
+            } catch (error) {
+                console.error('Error in oneTo9999:', error);
+                alert('Failed to activate 1=9999. Check console for details.');
+            }
+        }
+
+        function shieldToAnoobis() {
+            try {
+                console.log('Shield to Anoobis activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444444', 'I32', '0x100000000', '0x1600000000');
+                let results444444 = h5gg.getResults(100);
+                if (results444444.length === 0) {
+                    alert('No results found for value 444444.');
+                    return;
+                }
+                h5gg.searchNearby('94', 'I32', '0x900');
+                let resultsNearby94 = h5gg.getResults(100);
+                if (resultsNearby94.length === 0) {
+                    alert('Nearby search for 94 failed.');
+                    return;
+                }
+                safeSearchNumber('94', 'I32', '0x100000000', '0x1600000000');
+                let results94 = h5gg.getResults(100);
+                if (results94.length === 0) {
+                    alert('No results found for value 94.');
+                    return;
+                }
+                let modified94 = h5gg.editAll('278', 'I32');
+                if (!modified94) {
+                    alert('Failed to modify all occurrences of value 94 to 278.');
+                    return;
+                }
+                h5gg.searchNearby('8', 'I32', '0x900');
+                let resultsNearby8 = h5gg.getResults(100);
+                if (resultsNearby8.length === 0) {
+                    alert('Nearby search for 8 failed.');
+                    return;
+                }
+                safeSearchNumber('8', 'I32', '0x100000000', '0x1600000000');
+                let results8 = h5gg.getResults(100);
+                if (results8.length === 0) {
+                    alert('No results found for value 8.');
+                    return;
+                }
+                let modified8 = h5gg.editAll('2', 'I32');
+                if (!modified8) {
+                    alert('Failed to modify all occurrences of value 8 to 2.');
+                    return;
+                }
+                h5gg.searchNearby('444444', 'I32', '0x900');
+                let resultsNearby444444 = h5gg.getResults(100);
+                if (resultsNearby444444.length === 0) {
+                    alert('Final nearby search for 444444 failed.');
+                    return;
+                }
+                h5gg.clearResults();
+                alert('Shield to Anoobis activated!');
+            } catch (error) {
+                console.error('Error in shieldToAnoobis:', error);
+                alert('Failed to activate Shield to Anoobis. Check console for details.');
+            }
+        }
+
+        function shieldToElectric() {
+            try {
+                console.log('Shield to Electric activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444444', 'I32', '0x100000000', '0x1600000000');
+                let results444444 = h5gg.getResults(100);
+                if (results444444.length === 0) {
+                    alert('No results found for value 444444.');
+                    return;
+                }
+                h5gg.searchNearby('252', 'I32', '0x900');
+                let resultsNearby252 = h5gg.getResults(100);
+                if (resultsNearby252.length === 0) {
+                    alert('Nearby search for 252 failed.');
+                    return;
+                }
+                safeSearchNumber('252', 'I32', '0x100000000', '0x1600000000');
+                let results252 = h5gg.getResults(100);
+                if (results252.length === 0) {
+                    alert('No results found for value 252.');
+                    return;
+                }
+                let modified252 = h5gg.editAll('277', 'I32');
+                if (!modified252) {
+                    alert('Failed to modify all occurrences of value 252 to 277.');
+                    return;
+                }
+                h5gg.searchNearby('8', 'I32', '0x900');
+                let resultsNearby8 = h5gg.getResults(100);
+                if (resultsNearby8.length === 0) {
+                    alert('Nearby search for 8 failed.');
+                    return;
+                }
+                safeSearchNumber('8', 'I32', '0x100000000', '0x1600000000');
+                let results8 = h5gg.getResults(100);
+                if (results8.length === 0) {
+                    alert('No results found for value 8.');
+                    return;
+                }
+                let modified8 = h5gg.editAll('2', 'I32');
+                if (!modified8) {
+                    alert('Failed to modify all occurrences of value 8 to 2.');
+                    return;
+                }
+                h5gg.searchNearby('444444', 'I32', '0x900');
+                let resultsNearby444444 = h5gg.getResults(100);
+                if (resultsNearby444444.length === 0) {
+                    alert('Final nearby search for 444444 failed.');
+                    return;
+                }
+                h5gg.clearResults();
+                alert('Shield to Electric activated!');
+            } catch (error) {
+                console.error('Error in shieldToElectric:', error);
+                alert('Failed to activate Shield to Electric. Check console for details.');
+            }
+        }
+
+        function bananaAnoobis() {
+            try {
+                console.log('Banana Anoobis activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444444', 'I32', '0x100000000', '0x1600000000');
+                let results444444 = h5gg.getResults(100);
+                if (results444444.length === 0) {
+                    alert('No results found for value 444444.');
+                    return;
+                }
+                h5gg.searchNearby('252', 'I32', '0x900');
+                let resultsNearby252 = h5gg.getResults(100);
+                if (resultsNearby252.length === 0) {
+                    alert('Nearby search for 252 failed.');
+                    return;
+                }
+                safeSearchNumber('252', 'I32', '0x100000000', '0x1600000000');
+                let results252 = h5gg.getResults(100);
+                if (results252.length === 0) {
+                    alert('No results found for value 252.');
+                    return;
+                }
+                let modified252 = h5gg.editAll('278', 'I32');
+                if (!modified252) {
+                    alert('Failed to modify all occurrences of value 252 to 278.');
+                    return;
+                }
+                h5gg.searchNearby('8', 'I32', '0x900');
+                let resultsNearby8 = h5gg.getResults(100);
+                if (resultsNearby8.length === 0) {
+                    alert('Nearby search for 8 failed.');
+                    return;
+                }
+                safeSearchNumber('8', 'I32', '0x100000000', '0x1600000000');
+                let results8 = h5gg.getResults(100);
+                if (results8.length === 0) {
+                    alert('No results found for value 8.');
+                    return;
+                }
+                let modified8 = h5gg.editAll('2', 'I32');
+                if (!modified8) {
+                    alert('Failed to modify all occurrences of value 8 to 2.');
+                    return;
+                }
+                h5gg.searchNearby('444444', 'I32', '0x900');
+                let resultsNearby444444 = h5gg.getResults(100);
+                if (resultsNearby444444.length === 0) {
+                    alert('Final nearby search for 444444 failed.');
+                    return;
+                }
+                h5gg.clearResults();
+                alert('Banana Anoobis activated!');
+            } catch (error) {
+                console.error('Error in bananaAnoobis:', error);
+                alert('Failed to activate Banana Anoobis. Check console for details.');
+            }
+        }
+
+        function bpMultiplier() {
+            try {
+                console.log('BP Multiplier activated!');
+                h5gg.clearResults();
+                safeSearchNumber('-444445', 'I32', '0x100000000', '0x1600000000');
+                h5gg.editAll('444430', 'I32');
+                h5gg.clearResults();
+                alert('BP Multiplier activated!');
+            } catch (error) {
+                console.error('Error in bpMultiplier:', error);
+                alert('Failed to activate BP Multiplier. Check console for details.');
+            }
+        }
+
+        function bananaElectric() {
+            try {
+                console.log('Banana Electric activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444444', 'I32', '0x100000000', '0x1600000000');
+                let results444444 = h5gg.getResults(100);
+                if (results444444.length === 0) {
+                    alert('No results found for value 444444.');
+                    return;
+                }
+                h5gg.searchNearby('252', 'I32', '0x900');
+                let resultsNearby252 = h5gg.getResults(100);
+                if (resultsNearby252.length === 0) {
+                    alert('Nearby search for 252 failed.');
+                    return;
+                }
+                safeSearchNumber('252', 'I32', '0x100000000', '0x1600000000');
+                let results252 = h5gg.getResults(100);
+                if (results252.length === 0) {
+                    alert('No results found for value 252.');
+                    return;
+                }
+                let modified252 = h5gg.editAll('277', 'I32');
+                if (!modified252) {
+                    alert('Failed to modify all occurrences of value 252 to 277.');
+                    return;
+                }
+                h5gg.searchNearby('8', 'I32', '0x900');
+                let resultsNearby8 = h5gg.getResults(100);
+                if (resultsNearby8.length === 0) {
+                    alert('Nearby search for 8 failed.');
+                    return;
+                }
+                safeSearchNumber('8', 'I32', '0x100000000', '0x1600000000');
+                let results8 = h5gg.getResults(100);
+                if (results8.length === 0) {
+                    alert('No results found for value 8.');
+                    return;
+                }
+                let modified8 = h5gg.editAll('2', 'I32');
+                if (!modified8) {
+                    alert('Failed to modify all occurrences of value 8 to 2.');
+                    return;
+                }
+                h5gg.searchNearby('444444', 'I32', '0x900');
+                let resultsNearby444444 = h5gg.getResults(100);
+                if (resultsNearby444444.length === 0) {
+                    alert('Final nearby search for 444444 failed.');
+                    return;
+                }
+                h5gg.clearResults();
+                alert('Banana Electric activated!');
+            } catch (error) {
+                console.error('Error in bananaElectric:', error);
+                alert('Failed to activate Banana Electric. Check console for details.');
+            }
+        }
+
+        function appleAnoobis() {
+            try {
+                console.log('Apple Anoobis activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444444', 'I32', '0x100000000', '0x1600000000');
+                let results444444 = h5gg.getResults(100);
+                if (results444444.length === 0) {
+                    alert('No results found for value 444444.');
+                    return;
+                }
+                h5gg.searchNearby('230', 'I32', '0x900');
+                let resultsNearby230 = h5gg.getResults(100);
+                if (resultsNearby230.length === 0) {
+                    alert('Nearby search for 230 failed.');
+                    return;
+                }
+                safeSearchNumber('230', 'I32', '0x100000000', '0x1600000000');
+                let results230 = h5gg.getResults(100);
+                if (results230.length === 0) {
+                    alert('No results found for value 230.');
+                    return;
+                }
+                let modified230 = h5gg.editAll('278', 'I32');
+                if (!modified230) {
+                    alert('Failed to modify all occurrences of value 230 to 278.');
+                    return;
+                }
+                h5gg.searchNearby('8', 'I32', '0x900');
+                let resultsNearby8 = h5gg.getResults(100);
+                if (resultsNearby8.length === 0) {
+                    alert('Nearby search for 8 failed.');
+                    return;
+                }
+                safeSearchNumber('8', 'I32', '0x100000000', '0x1600000000');
+                let results8 = h5gg.getResults(100);
+                if (results8.length === 0) {
+                    alert('No results found for value 8.');
+                    return;
+                }
+                let modified8 = h5gg.editAll('2', 'I32');
+                if (!modified8) {
+                    alert('Failed to modify all occurrences of value 8 to 2.');
+                    return;
+                }
+                h5gg.searchNearby('444444', 'I32', '0x900');
+                let resultsNearby444444 = h5gg.getResults(100);
+                if (resultsNearby444444.length === 0) {
+                    alert('Final nearby search for 444444 failed.');
+                    return;
+                }
+                h5gg.clearResults();
+                alert('Apple Anoobis activated!');
+            } catch (error) {
+                console.error('Error in appleAnoobis:', error);
+                alert('Failed to activate Apple Anoobis. Check console for details.');
+            }
+        }
+
+        function medToAirdrop() {
+            try {
+                console.log('Med to Airdrop activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444444', 'I32', '0x100000000', '0x1600000000');
+                let results444444 = h5gg.getResults(100);
+                if (results444444.length === 0) {
+                    alert('No results found for value 444444.');
+                    return;
+                }
+                h5gg.searchNearby('95', 'I32', '0x900');
+                let resultsNearby95 = h5gg.getResults(100);
+                if (resultsNearby95.length === 0) {
+                    alert('Nearby search for 95 failed.');
+                    return;
+                }
+                safeSearchNumber('95', 'I32', '0x100000000', '0x1600000000');
+                let results95 = h5gg.getResults(100);
+                if (results95.length === 0) {
+                    alert('No results found for value 95.');
+                    return;
+                }
+                let modified95 = h5gg.editAll('243', 'I32');
+                if (!modified95) {
+                    alert('Failed to modify all occurrences of value 95 to 243.');
+                    return;
+                }
+                h5gg.searchNearby('8', 'I32', '0x900');
+                let resultsNearby8 = h5gg.getResults(100);
+                if (resultsNearby8.length === 0) {
+                    alert('Nearby search for 8 failed.');
+                    return;
+                }
+                safeSearchNumber('8', 'I32', '0x100000000', '0x1600000000');
+                let results8 = h5gg.getResults(100);
+                if (results8.length === 0) {
+                    alert('No results found for value 8.');
+                    return;
+                }
+                let modified8 = h5gg.editAll('2', 'I32');
+                if (!modified8) {
+                    alert('Failed to modify all occurrences of value 8 to 2.');
+                    return;
+                }
+                h5gg.searchNearby('444444', 'I32', '0x900');
+                let resultsNearby444444 = h5gg.getResults(100);
+                if (resultsNearby444444.length === 0) {
+                    alert('Final nearby search for 444444 failed.');
+                    return;
+                }
+                h5gg.clearResults();
+                alert('Med to Airdrop activated!');
+            } catch (error) {
+                console.error('Error in medToAirdrop:', error);
+                alert('Failed to activate Med to Airdrop. Check console for details.');
+            }
+        }
+
+        function thirtyTo9999() {
+            try {
+                console.log('30=9999 activated!');
+                h5gg.clearResults();
+                safeSearchNumber('444418', 'I32', '0x100000000', '0x1600000000');
+                h5gg.editAll('454419', 'I32');
+                h5gg.clearResults();
+                alert('30=9999 activated!');
+            } catch (error) {
+                console.error('Error in thirtyTo9999:', error);
+                alert('Failed to activate 30=9999. Check console for details.');
+            }
+        }
+
+        function eliteChest() {
+            try {
+                console.log('Elite Chest Hack activated!');
+                h5gg.clearResults();
+                safeSearchNumber('5', 'F32', '0x100000000', '0x1600000000');
+                h5gg.editAll('0', 'F32');
+                h5gg.clearResults();
+                alert('Elite Chest Hack activated!');
+            } catch (error) {
+                console.error('Error in eliteChest:', error);
+                alert('Failed to activate Elite Chest Hack. Check console for details.');
+            }
+        }
+
+        // Show the main menu by default
+        showScreen('mainMenu');
+    </script>
+</body>
+</html>
